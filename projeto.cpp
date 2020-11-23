@@ -64,9 +64,9 @@ int menu()
     int opcao;
 
     printf(" Menu de opções: \n\n");
-    printf(" (1) Carregar textos \n");
-    printf(" (2) Exibir palavras ordenadas  \n");
-    printf(" (3) Pesquisar textos  \n");
+    printf(" (1) Criar Grafo \n");
+    printf(" (2) Vizualizar grafo \n");
+    printf(" (3) Remover arestas \n");
     printf(" (4) Sair\n");
     printf("\n\n Selecione a opção : ");
     scanf("%d", &opcao);
@@ -75,9 +75,53 @@ int menu()
     return opcao;
 }
 
+void preencheMatriz(Graph graph, int numVertice){
+	
+	int aux, escolhe;
+	
+	for(int i = 0; i < numVertice; i++){
+		
+		printf("Com quem o vértice %d está conectado? ",i);
+		scanf("%d", &aux);
+		
+		GRAPHinsertArc(graph, i, aux);
+		GRAPHinsertArc(graph,aux, i);
+		
+		do{
+			printf("O vértice %d tem mais alguma conexão? (Sim 1/Nao 0)",i);
+			scanf("%d", &escolhe);
+		
+		switch (escolhe){
+			
+			case 0:{
+				printf("Indo para o próximo vértice... \n");
+				
+			break;
+			}
+			case 1:{
+				printf("Com mais quem o vértice %d está conectado? ",i);
+				scanf("%d", &aux);
+				GRAPHinsertArc(graph, i, aux);
+				GRAPHinsertArc(graph,aux, i);
+				
+			break;
+			}
+			
+			default:{
+				printf(" Opção inválida!\n\n");	
+								
+			break;
+			}			
+		}
+        
+}while(escolhe!=0);
+	}
+}
+
 int main(){
 
   int op;
+  Graph g1;
 
   do{
 		op = menu();
@@ -85,38 +129,40 @@ int main(){
 		switch (op){
 			
 			case 1:{
+				int vertice;
+				printf("Digite o número de vértices do grafo: ");
+				scanf("%d", &vertice);
+				g1 = GRAPHinit(vertice);
+				printf("vc crioiu um grafo com %d vertices \n", vertice);
+				preencheMatriz(g1, vertice);
 				
 			break;
 			}
 			case 2:{
+				GRAPHshow(g1);
 				
 			break;
 			}
 			case 3:{	
-	     			
+ 			   
 			break;
 			}
 			case 4:{
-				
-				printf(" Sair\n\n");
-				
+				printf(" Saiu\n\n");
+								
 			break;
 			}
 			default:{
-				
-				printf(" Opção inválida!\n\n");	
-				
+				printf(" Opção inválida!\n\n");
+									
 			break;
 			}			
 		}
 		
-		system("pause");
+	system("pause");
     system("cls");
         
 	}while(op!=4);
-	Graph g1 = GRAPHinit(3);
-  GRAPHinsertArc( g1, 0, 1);
-  GRAPHinsertArc( g1, 0, 2);
-	GRAPHshow(g1);
+	
 	return 0;
 }
